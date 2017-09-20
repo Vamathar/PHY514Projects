@@ -111,7 +111,6 @@ class Poisson:
                             or i == (self.__steps - 1)\
                             or j == 0\
                             or j == (self.__steps - 1)
-
                     if not boundary:
                         newzgrid[i][j] = 0.25*(\
                                 self.zgrid[i+1][j]+self.zgrid[i-1][j]\
@@ -120,12 +119,12 @@ class Poisson:
                                 *self.__dx2
                     print('i,j = ',i,j)
                     j+=1
+                j = 0
                 i+=1
             diffzgrid = abs(newzgrid - self.zgrid)
             diff = diffzgrid.max()
             self.zgrid = newzgrid
             iterations+=1
-            print('diff,delta = ',diff,delta)
 
         if iterations >= maxiter:
             print("Warning: Relaxation solver did not converge.")
