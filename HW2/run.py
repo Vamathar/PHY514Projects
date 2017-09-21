@@ -25,10 +25,11 @@ def main():
 
     # Relaxation method
     title = 'Poisson Equation Solution using Relaxation Method'
-    RelaxIters = SolveMe.Relaxation(0.01)
+    RelaxIters = SolveMe.Relaxation(0.00001)
+    print('Iterations to solution: ',RelaxIters)
     x,y,z = SolveMe.Grids()
     Plotter = dp(title)
-    Plotter.Contour(x,y,z,30,'plasma')
+    Plotter.Contour(x,y,z,300,'plasma')
 
 
 

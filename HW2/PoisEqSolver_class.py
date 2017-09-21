@@ -33,9 +33,9 @@ class Poisson:
         self.__dx = self.__xc[1]-self.__xc[0]
         self.__dx2 = self.__dx*self.__dx
         
-        # Initialize zgrid with proper boundary values
-        self.zgrid = False
-        self.__zgridInit()
+        # Initialize phigrid with proper boundary values
+        self.phigrid = False
+        self.__phigridInit()
         self.__solved = False # Indicates if a solver has been used
         
 
@@ -47,15 +47,15 @@ class Poisson:
         if type(self.__src)!=type(self.__verify):
             errors.append('source')
 
-    def __zgridInit(self):
+    def __phigridInit(self):
         """
-        Initializes zgrid with proper boundary values
+        Initializes phigrid with proper boundary values
         """
-        self.zgrid = list()
+        self.phigrid = list()
         i = 0
-        j = 0
         for x in self.__xc:
             column = list()
+            j=0
             for y in self.__yc:
                 if i == 0:
                     column.append(self.__bx[0])
@@ -66,19 +66,19 @@ class Poisson:
                 else:
                     column.append(self.__by[1](self.__xc[i]))
                 j+=1
-            self.zgrid.append(column)
+            self.phigrid.append(column)
             i+=1
-        self.zgrid = np.array(self.zgrid)
+        self.phigrid = np.array(self.phigrid)
     
     def Grids(self):
         """
         Returns grids of x,y,z coordinates
 
         Input: none
-        Returns: list(np.array(steps,steps),np.array(steps,steps),np.array(steps,steps)), i.e. [xgrid,ygrid,zgrid]
+        Returns: list(np.array(steps,steps),np.array(steps,steps),np.array(steps,steps)), i.e. [xgrid,ygrid,phigrid]
         """
         xgrid,ygrid = np.meshgrid(self.__xc,self.__yc)
-        return [xgrid,ygrid,self.zgrid]
+        return [xgrid,ygrid,self.phigrid]
 
     @jit
     def Relaxation(self,delta,maxiter=1000):
@@ -90,42 +90,43 @@ class Poisson:
             maxiter: maximum iterations allowed
         Returns: integer, number of iterations to converge or maxiter
 
-        Note: Access solution through the Poisson.zgrid variable
+        Note: Access solution through the Poisson.phigrid variable
         """
-        # Reinitialize zgrid if another solver has already been used
+        # Reinitialize phigrid if another solver has already been used
         if self.__solved:
-            self.__zgridinit()
+            self.__phigridinit()
         self.__solved = True
 
         diff = delta+1.
         iterations = 0
-        newzgrid = self.zgrid
-        print('length = ',len(self.__xc),len(self.__yc))
-        while diff > delta and iterations < maxiter:
-            i = 0
-            j = 0
+        newphigrid = self.phigrid.copy()
+        while (diff > delta and iterations < maxiter):
+            i = -1
             # Apply relaxation step
             for x in self.__xc:
+                i+=1
+                j=-1
                 for y in self.__yc:
-                    boundary = i==0\
+                    j+=1
+                    boundary = i == 0\
                             or i == (self.__steps - 1)\
                             or j == 0\
                             or j == (self.__steps - 1)
                     if not boundary:
-                        newzgrid[i][j] = 0.25*(\
-                                self.zgrid[i+1][j]+self.zgrid[i-1][j]\
-                                +self.zgrid[i][j+1]+self.zgrid[i][j-1])\
-                                +math.pi*self.__src(self.__xc[i],self.__yc[j])\
-                                *self.__dx2
-                    print('i,j = ',i,j)
-                    j+=1
-                j = 0
-                i+=1
-            diffzgrid = abs(newzgrid - self.zgrid)
-            diff = diffzgrid.max()
-            self.zgrid = newzgrid
-            iterations+=1
+                        phixp1 = self.phigrid[i+1][j]
+                        phixm1 = self.phigrid[i-1][j]
+                        phiyp1 = self.phigrid[i][j+1]
+                        phiym1 = self.phigrid[i][j-1]
+                        avg = (phixp1+phixm1+phiyp1+phiym1)*0.25
+                        val = avg\
+                                +math.pi*self.__src(x,y)
+                        newphigrid[i][j] = val 
 
+            diffphigrid = abs(newphigrid - self.phigrid)
+            #print(diffphigrid)
+            diff = diffphigrid.max()
+            self.phigrid = newphigrid.copy()
+            iterations+=1
         if iterations >= maxiter:
             print("Warning: Relaxation solver did not converge.")
         return iterations
