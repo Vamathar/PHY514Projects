@@ -40,7 +40,7 @@ def main():
     print('Iterations to solution: ',RelaxIters)
     x,y,z = SolveMe.Grids()
     Plotter = dp(title)
-    Plotter.Contour(x,y,z,30,'plasma')
+    Plotter.Contour(x,y,z,30,'plasma','Problem1Part1Plot.png')
 
 
 ################################################################################
@@ -54,7 +54,7 @@ def main():
     print('Iterations to solution: ',RelaxIters)
     x,y,z = SolveMe.Grids()
     Plotter = dp(title)
-    Plotter.Contour(x,y,z,30,'plasma')
+    Plotter.Contour(x,y,z,30,'plasma','Problem1Part2Plot.png')
 
 
 ################################################################################
@@ -68,7 +68,7 @@ def main():
     RelaxIters = SolveMe.MultiGrid(w,convergence,FinalSteps,maxiter=10000)
     x,y,z = SolveMe.Grids()
     Plotter = dp(title)
-    Plotter.Contour(x,y,z,30,'plasma')
+    Plotter.Contour(x,y,z,30,'plasma','Problem3Plot.png')
 
 
 
@@ -89,6 +89,6 @@ def main():
     toasty.LineSolve()
     title = 'Heat Equation Solution Using Method of Lines'
     Plotter = dp(title,'t','x')
-    Plotter.Contour(toasty.t,toasty.x,toasty.Temp,30,'plasma','P2_heat.png')
+    Plotter.Contour(toasty.t,toasty.x,toasty.Temp,30,'plasma','Problem2Plot.png')
     
 main()

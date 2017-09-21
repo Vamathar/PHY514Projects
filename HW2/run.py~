@@ -81,6 +81,7 @@ def main():
     tsteps = 10
     dx = abs(xmm[1]-xmm[0])/(xsteps-1)
     dt = tmax/(tsteps-1)
+    # Ensure stability of solution with following diffusion constant value
     const = 0.25*dx*dx/dt
     
     # Solve 1 dimensional heat equation
