@@ -46,7 +46,7 @@ class diplotocus:
         axes.set_title(self.title)
         axes.set_xlabel(self.xlabel)
         axes.set_ylabel(self.ylabel)
-        conplot = axes.contour(x,y,z,levels=levels,cmap=cmap)
+        conplot = axes.contourf(x,y,z,levels=levels,cmap=cmap)
         fig.colorbar(conplot,ax=axes)
         plt.show()
 

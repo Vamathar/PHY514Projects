@@ -39,7 +39,7 @@ class diplotocus:
         # if type(self.title)==list or type(self.title)==tuple:
         else:
             sys.exit(self.__errors['title'])
-    def Contour(self,x,y,z,res,colormap):
+    def Contour(self,x,y,z,res,colormap,filename):
         fig,axes = plt.subplots(1,1)
         levels = MaxNLocator(nbins = res).tick_values(z.max(),z.min())
         cmap = plt.get_cmap(colormap)
@@ -48,6 +48,5 @@ class diplotocus:
         axes.set_ylabel(self.ylabel)
         conplot = axes.contourf(x,y,z,levels=levels,cmap=cmap)
         fig.colorbar(conplot,ax=axes)
-        plt.show()
-
+        fig.savefig(filename,format='png')
 
