@@ -63,17 +63,12 @@ class Poisson:
                     column.append(self.__bx[1])
                 elif j == 0:
                     column.append(self.__by[0](self.__xc[i]))
-                elif j == (self.__steps-1):
-                    column.append(self.__by[1](self.__xc[i]))
                 else:
-                    column.append(0.)
+                    column.append(self.__by[1](self.__xc[i]))
                 j+=1
             self.phigrid.append(column)
             i+=1
         self.phigrid = np.array(self.phigrid)
-        print(self.__xc)
-        print(self.__yc)
-        print(self.phigrid)
     
     def Grids(self):
         """
@@ -122,10 +117,9 @@ class Poisson:
                         phixm1 = self.phigrid[i-1][j]
                         phiyp1 = self.phigrid[i][j+1]
                         phiym1 = self.phigrid[i][j-1]
-                        val = (phixp1+phixm1+phiyp1+phiym1+4*math.pi*self.__src(x,y))/6.
-#                        avg = (phixp1+phixm1+phiyp1+phiym1)*0.25
-#                        val = avg\
-#                                +math.pi*self.__src(x,y)
+                        avg = (phixp1+phixm1+phiyp1+phiym1)*0.25
+                        val = avg\
+                                +math.pi*self.__src(x,y)
                         newphigrid[i][j] = val 
 
             diffphigrid = abs(newphigrid - self.phigrid)
@@ -134,7 +128,6 @@ class Poisson:
             iterations+=1
         if iterations >= maxiter:
             print("Warning: Relaxation solver did not converge.")
-        print(self.phigrid)
         return iterations
 
     @jit
