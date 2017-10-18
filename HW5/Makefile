@@ -1,7 +1,7 @@
 IDIR=include
 SDIR=src
 DEPS=$(wildcard $(IDIR)/*.h)
-SOURCESC=$(wildcard $(SDIR)/*.C)
+SOURCESC=$(wildcard $(SDIR)/*.cpp)
 CC=g++
 EXECUTABLE=Percolate
 LIBS= -lgsl -lgslcblas
