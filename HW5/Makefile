@@ -22,4 +22,4 @@ $(EXECUTABLE): $(OBJECTSC)
 .PHONY: clean
 
 clean:
-	rm -f $(SDIR)/*.o $(IDIR)/*~ $(EXECUTABLE) $(SDIR)/*~ /*~ *~ *.csv *.pdf
+	rm -f $(SDIR)/*.o $(IDIR)/*~ $(EXECUTABLE) $(SDIR)/*~ /*~ *~ *.tsv

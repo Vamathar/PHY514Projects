@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <set>
 #include <algorithm>
 #include <root/TRandom3.h>
 
@@ -17,7 +18,7 @@ class percolate{
 	double P();
 	int N();
 	void SetP(double); // sets p to a new value and remakes tfgrid
-	void Cluster(); // clusters tfgrid and makes clusterlabels
+	vector<int> Cluster(); // clusters tfgrid and makes clusterlabels
 	vector<int> Percolating(); // returns proper labels of percolating clusters
 	vector<vector<int> > Grid(); // returns clustered and relabeled tfgrid
 
