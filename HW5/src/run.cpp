@@ -10,7 +10,7 @@ void savegrid(vector< vector< int > >&, string);
 int main(){
 
     // Part 1: make a cluster grid for visual pleasure
-    int n = 50;
+    int n = 10;
     double p = 0.58;
     percolate a(n,p);
     vector<int> clust;
@@ -23,6 +23,7 @@ int main(){
     grid = a.Grid();
     savegrid(grid,gridname);
 
+    /*
     // Part 2: make P vs p coordinates
     vector<double> pvec;
     n = 200;
@@ -112,6 +113,7 @@ int main(){
     }
     savevector(pvec,xname);
     savevector(bigPvec,yname);
+    */
     return 0;
 }
 //==============================================================================
