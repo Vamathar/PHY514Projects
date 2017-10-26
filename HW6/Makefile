@@ -8,7 +8,7 @@ LIBS= -lgsl -lgslcblas
 
 OBJECTSC=$(SOURCESC:.cpp=.o)
 
-CFLAGS=-I$(IDIR) `root-config --cflags --glibs`
+CFLAGS=-I$(IDIR) `root-config --cflags --glibs` -std=c++11
 
 all: $(EXECUTABLE) $(SOURCESC) $(DEPS)
 
